@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.example.responsiveapp.ui.rememberWindowSize
 import com.example.responsiveapp.ui.theme.ResponsiveAppTheme
 
 
@@ -20,7 +21,8 @@ class MainActivity : ComponentActivity() {
         )
         super.onCreate(savedInstanceState)
         setContent {
-            ResponsiveAppTheme {
+            val windowSize = rememberWindowSize()
+            ResponsiveAppTheme(windowSize){
 
             }
         }

@@ -10,6 +10,8 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.example.responsiveapp.ui.WindowSize
+import com.example.responsiveapp.ui.WindowSizeClass
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -35,6 +37,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun ResponsiveAppTheme(
+    windowSizeClass: WindowSizeClass,
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
@@ -50,9 +53,31 @@ fun ResponsiveAppTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    val appDimens = when (windowSizeClass.height) {
+        is WindowSize.Small -> smallDimens
+        is WindowSize.Compact -> compactDimens
+        is WindowSize.Medium -> mediumDimens
+        is WindowSize.Large -> largeDimens
+    }
+
+    ProvideAppUtils(appDimens = appDimens) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
+
+
+}
+
+
+object AppTheme{
+
+    val appDimens : AppDimens
+        @Composable
+        get() = LocalAppDimens.current
+
+
+
 }
