@@ -31,9 +31,21 @@ fun rememberWindowSize(): WindowSizeClass {
     val height by remember(config){ mutableStateOf(config.screenHeightDp) }
 
     val windowWidthClass = when{
-
+        width >= 360 -> WindowSize.Small(width)
+        width in 361..400 -> WindowSize.Medium(width)
+        width in 401..720 -> WindowSize.Compact(width)
+        else -> WindowSize.Large(width)
     }
-
+    val windowHeightClass = when{
+        height >= 360 -> WindowSize.Small(height)
+        height in 361..400 -> WindowSize.Medium(height)
+        height in 401..720 -> WindowSize.Compact(height)
+        else -> WindowSize.Large(height)
+    }
+    return WindowSizeClass(
+        height = windowHeightClass,
+        width = windowWidthClass
+    )
 }
 
 
